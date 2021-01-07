@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2009-2021 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -165,8 +165,8 @@ public class Configuration {
 
   protected String databaseId;
   /**
-   * Configuration factory class.
-   * Used to create Configuration for loading deserialized unread properties.
+   * configuration factory class.
+   * used to create configuration for loading deserialized unread properties.
    *
    * @see <a href='https://code.google.com/p/mybatis/issues/detail?id=300'>Issue 300 (google code)</a>
    */

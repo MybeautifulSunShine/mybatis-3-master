@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2009-2021 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -45,11 +45,14 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
  * @author Clinton Begin
  */
 public class Reflector {
-
-  private final Class<?> type;//对应的class
-  private final String[] readablePropertyNames;//可读属性的名称集合，存在get方法即可读
-  private final String[] writeablePropertyNames;//可写属性的名称集合，存在set方法即可写
-  private final Map<String, Invoker> setMethods = new HashMap<>();//保存属性相关的set方法
+  /**对应的class*/
+  private final Class<?> type;
+  /**可读属性的名称集合，存在get方法即可读*/
+  private final String[] readablePropertyNames;
+  /**可写属性的名称集合，存在set方法即可写*/
+  private final String[] writeablePropertyNames;
+  /**保存属性相关的set方法*/
+  private final Map<String, Invoker> setMethods = new HashMap<>();
   private final Map<String, Invoker> getMethods = new HashMap<>();//保存属性相关的get方法
   private final Map<String, Class<?>> setTypes = new HashMap<>();//保存属性相关的set方法入参类型
   private final Map<String, Class<?>> getTypes = new HashMap<>();//保存属性相关的get方法返回类型

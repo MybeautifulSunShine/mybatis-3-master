@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2009-2021 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -71,9 +71,11 @@ public class BlockingCache implements Cache {
 
   @Override
   public Object getObject(Object key) {
-    acquireLock(key);//根据key获得锁对象，获取锁成功加锁，获取锁失败阻塞一段时间重试
+   //根据key获得锁对象，获取锁成功加锁，获取锁失败阻塞一段时间重试
+    acquireLock(key);
     Object value = delegate.getObject(key);
-    if (value != null) {//获取数据成功的，要释放锁
+    //获取数据成功的，要释放锁
+    if (value != null) {
       releaseLock(key);
     }        
     return value;

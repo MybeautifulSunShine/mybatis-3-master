@@ -1,5 +1,5 @@
 /**
- *    Copyright ${license.git.copyrightYears} the original author or authors.
+ *    Copyright 2009-2021 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -148,12 +148,14 @@ public abstract class BaseExecutor implements Executor {
     if (closed) {//检查当前executor是否关闭
       throw new ExecutorException("Executor was closed.");
     }
-    if (queryStack == 0 && ms.isFlushCacheRequired()) {//非嵌套查询，并且FlushCache配置为true，则需要清空一级缓存
+     //非嵌套查询，并且FlushCache配置为true，则需要清空一级缓存
+    if (queryStack == 0 && ms.isFlushCacheRequired()) {
       clearLocalCache();
     }
     List<E> list;
     try {
-      queryStack++;//查询层次加一
+        //查询层次加一
+      queryStack++;
       list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;//查询以及缓存
       if (list != null) {
     	 //针对调用存储过程的结果处理
