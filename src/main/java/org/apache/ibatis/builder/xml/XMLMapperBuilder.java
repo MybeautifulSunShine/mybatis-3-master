@@ -91,7 +91,8 @@ public class XMLMapperBuilder extends BaseBuilder {
 	//判断是否已经加载该配置文件
     if (!configuration.isResourceLoaded(resource)) {
       configurationElement(parser.evalNode("/mapper"));//处理mapper节点
-      configuration.addLoadedResource(resource);//将mapper文件添加到configuration.loadedResources中
+        /*将mapper文件添加到configuration.loadedResources中*/
+      configuration.addLoadedResource(resource);
       bindMapperForNamespace();//注册mapper接口
     }
     //处理解析失败的ResultMap节点
@@ -304,7 +305,8 @@ public class XMLMapperBuilder extends BaseBuilder {
         processConstructorElement(resultChild, typeClass, resultMappings);
       } else if ("discriminator".equals(resultChild.getName())) {//处理<discriminator>节点
         discriminator = processDiscriminatorElement(resultChild, typeClass, resultMappings);
-      } else {//处理<id> <result> <association> <collection>节点
+      } else {
+        //处理<id> <result> <association> <collection>节点
         List<ResultFlag> flags = new ArrayList<>();
         if ("id".equals(resultChild.getName())) {
           flags.add(ResultFlag.ID);//如果是id节点，向flags中添加元素

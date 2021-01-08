@@ -389,17 +389,22 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   private void mapperElement(XNode parent) throws Exception {
     if (parent != null) {
-      for (XNode child : parent.getChildren()) {//处理mapper子节点
-        if ("package".equals(child.getName())) {//package子节点
+        /*处理mapper子节点*/
+      for (XNode child : parent.getChildren()) {
+        if ("package".equals(child.getName())) {
+           /*package子节点*/
           String mapperPackage = child.getStringAttribute("name");
           configuration.addMappers(mapperPackage);
-        } else {//获取<mapper>节点的resource、url或mClass属性这三个属性互斥
+        } else {
+          /*获取<mapper>节点的resource、url或mClass属性这三个属性互斥*/
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
-          if (resource != null && url == null && mapperClass == null) {//如果resource不为空
+          /*如果resource不为空*/
+          if (resource != null && url == null && mapperClass == null) {
             ErrorContext.instance().resource(resource);
-            InputStream inputStream = Resources.getResourceAsStream(resource);//加载mapper文件
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            /*加载mapper文件*/
             //实例化XMLMapperBuilder解析mapper映射文件
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
             mapperParser.parse();

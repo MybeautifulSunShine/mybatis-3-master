@@ -98,7 +98,8 @@ public class CacheBuilder {
     // issue #352, do not apply decorators to custom caches
     
     if (PerpetualCache.class.equals(cache.getClass())) {//如果cache是PerpetualCache的实现，则为其添加标准的装饰器
-      for (Class<? extends Cache> decorator : decorators) {//为cache对象添加装饰器，这里主要处理缓存清空策略的装饰器
+        /*为cache对象添加装饰器，这里主要处理缓存清空策略的装饰器*/
+      for (Class<? extends Cache> decorator : decorators) {
         cache = newCacheDecoratorInstance(decorator, cache);
         setCacheProperties(cache);
       }
@@ -123,18 +124,24 @@ public class CacheBuilder {
   private Cache setStandardDecorators(Cache cache) {
     try {
       MetaObject metaCache = SystemMetaObject.forObject(cache);
+      /*设置最大元素*/
       if (size != null && metaCache.hasSetter("size")) {
         metaCache.setValue("size", size);
       }
+      /*设置定时情况*/
       if (clearInterval != null) {
         cache = new ScheduledCache(cache);
         ((ScheduledCache) cache).setClearInterval(clearInterval);
       }
+      /*设置读写属性*/
       if (readWrite) {
         cache = new SerializedCache(cache);
       }
+      /*日志能力*/
       cache = new LoggingCache(cache);
+      /*同步*/
       cache = new SynchronizedCache(cache);
+      /*加上阻塞*/
       if (blocking) {
         cache = new BlockingCache(cache);
       }

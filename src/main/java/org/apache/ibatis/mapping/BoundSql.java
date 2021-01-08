@@ -30,12 +30,14 @@ import org.apache.ibatis.session.Configuration;
  * the value from).
  * <p>
  * Can also have additional parameters that are created by the dynamic language (for loops, bind...).
- *
+ * 对SQl的封装(该sql语句中可能宝行? 这样的占位符)
  * @author Clinton Begin
  */
-public class BoundSql {
 
+public class BoundSql {
+    /*sql 语句进行#{} 和${} 替换  完成之后就是 ? */
   private final String sql;
+  /*这里的parameterMappings 列表参数里的item个数 以及每个item 的属性名称 和上面sql中的 ? 完全一致的*/
   private final List<ParameterMapping> parameterMappings;
   private final Object parameterObject;
   private final Map<String, Object> additionalParameters;

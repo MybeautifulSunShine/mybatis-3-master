@@ -29,15 +29,15 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * @author Clinton Begin
  */
 public class ResultMapping {
-
-  private Configuration configuration;//引用的configuration对象
+/*引用的configuration对象*/
+  private Configuration configuration;
   private String property;//对应节点的property属性
   private String column;//对应节点的column属性
   private Class<?> javaType;//对应节点的javaType属性
   private JdbcType jdbcType;//对应节点的jdbcType属性
   private TypeHandler<?> typeHandler;//对应节点的typeHandler属性
-  private String nestedResultMapId;////对应节点的resultMap属性,嵌套结果时使用
-  private String nestedQueryId;////对应节点的select属性,嵌套查询时使用
+  private String nestedResultMapId;//对应节点的resultMap属性,嵌套结果时使用
+  private String nestedQueryId;//对应节点的select属性,嵌套查询时使用
   private Set<String> notNullColumns;//对应节点的notNullColumn属性
   private String columnPrefix;//对应节点的columnPrefix属性
   private List<ResultFlag> flags;//标志,id 或者 constructor
