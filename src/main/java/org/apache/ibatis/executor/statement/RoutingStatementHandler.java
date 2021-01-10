@@ -31,6 +31,7 @@ import org.apache.ibatis.session.RowBounds;
 
 /**
  * Excutor组件真正实例化的子类，使用静态代理模式，根据上下文决定创建哪个具体实体类；
+ * 作用是路由转发器
  * @author Clinton Begin
  */
 public class RoutingStatementHandler implements StatementHandler {
@@ -40,12 +41,15 @@ public class RoutingStatementHandler implements StatementHandler {
   public RoutingStatementHandler(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     //RoutingStatementHandler最主要的功能就是根据mappedStatment的配置，生成一个对应的StatementHandler对象并赋值给delegate
     switch (ms.getStatementType()) {
+        /*非预编译的*/
       case STATEMENT:
         delegate = new SimpleStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
         break;
+        /*默认的制定 这个属性可以在xml文件里面配置的 <statementType ="" >*/
       case PREPARED:
         delegate = new PreparedStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
         break;
+        /*告诉Mybatis这个存储过程*/
       case CALLABLE:
         delegate = new CallableStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
         break;

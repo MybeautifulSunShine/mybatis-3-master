@@ -50,7 +50,8 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
-      if (Object.class.equals(method.getDeclaringClass())) {//如果是Object本身的方法不增强
+        //如果是Object本身的方法不增强
+      if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
       } else if (isDefaultMethod(method)) {
         return invokeDefaultMethod(proxy, method, args);

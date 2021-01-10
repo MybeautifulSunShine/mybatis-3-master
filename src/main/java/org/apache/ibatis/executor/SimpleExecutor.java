@@ -58,12 +58,14 @@ public class SimpleExecutor extends BaseExecutor {
   public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
     Statement stmt = null;
     try {
-      Configuration configuration = ms.getConfiguration();//获取configuration对象
+      //获取configuration对象
+      Configuration configuration = ms.getConfiguration();
       //创建StatementHandler对象，
       StatementHandler handler = configuration.newStatementHandler(wrapper, ms, parameter, rowBounds, resultHandler, boundSql);
       //StatementHandler对象创建stmt,并使用parameterHandler对占位符进行处理
       stmt = prepareStatement(handler, ms.getStatementLog());
       //通过statementHandler对象调用ResultSetHandler将结果集转化为指定对象返回
+      //读一行一行 读出来通过反射模块填充代码与属性返回结果
       return handler.<E>query(stmt, resultHandler);
     } finally {
       closeStatement(stmt);

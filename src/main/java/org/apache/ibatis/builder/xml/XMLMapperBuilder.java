@@ -93,7 +93,8 @@ public class XMLMapperBuilder extends BaseBuilder {
       configurationElement(parser.evalNode("/mapper"));//处理mapper节点
         /*将mapper文件添加到configuration.loadedResources中*/
       configuration.addLoadedResource(resource);
-      bindMapperForNamespace();//注册mapper接口
+        //注册mapper接口 找到Class类与 xml文件所处的位置
+      bindMapperForNamespace();
     }
     //处理解析失败的ResultMap节点
     parsePendingResultMaps();

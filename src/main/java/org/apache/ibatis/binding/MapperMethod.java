@@ -56,7 +56,7 @@ public class MapperMethod {
 
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
-    //根据sql语句类型以及接口返回的参数选择调用不同的
+    //根据sql语句类型以及接口返回的参数选择调用不同的方法
     switch (command.getType()) {
       case INSERT: {
     	Object param = method.convertArgsToSqlCommandParam(args);
@@ -227,7 +227,7 @@ public class MapperMethod {
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
       final String methodName = method.getName();//获取方法名称
       final Class<?> declaringClass = method.getDeclaringClass();
-      //从configuration中获取mappedStatement
+      //从configuration中获取mappedStatement里面获取SQl语句
       MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass,
           configuration);
       if (ms == null) {
@@ -284,7 +284,7 @@ public class MapperMethod {
     private final boolean returnsVoid;//返回值为空
     private final boolean returnsCursor;//返回值是否为游标类型
     private final boolean returnsOptional;//返回值是否为Optional
-    private final Class<?> returnType;//返回值类型
+    private final Class<?> returnType;//返回值类型 (也就是我们返回具体参数)
     private final String mapKey;
     private final Integer resultHandlerIndex;
     private final Integer rowBoundsIndex;

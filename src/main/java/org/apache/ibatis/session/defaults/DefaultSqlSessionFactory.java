@@ -129,7 +129,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       final Transaction tx = transactionFactory.newTransaction(connection);
       //根据配置创建executor
       final Executor executor = configuration.newExecutor(tx, execType);
-      //创建DefaultSqlSession
+      //创建DefaultSqlSession 默认的构造器config
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {
       throw ExceptionFactory.wrapException("Error opening session.  Cause: " + e, e);

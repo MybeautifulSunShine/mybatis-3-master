@@ -145,7 +145,8 @@ public abstract class BaseExecutor implements Executor {
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
-    if (closed) {//检查当前executor是否关闭
+      //检查当前executor是否关闭
+    if (closed) {
       throw new ExecutorException("Executor was closed.");
     }
      //非嵌套查询，并且FlushCache配置为true，则需要清空一级缓存
@@ -350,6 +351,7 @@ public abstract class BaseExecutor implements Executor {
   protected Connection getConnection(Log statementLog) throws SQLException {
     Connection connection = transaction.getConnection();
     if (statementLog.isDebugEnabled()) {
+        //通过动态代理为我们的对象提供打印日志的功能
       return ConnectionLogger.newInstance(connection, statementLog, queryStack);
     } else {
       return connection;
