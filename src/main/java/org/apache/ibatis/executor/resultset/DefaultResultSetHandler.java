@@ -180,18 +180,19 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   @Override
   public List<Object> handleResultSets(Statement stmt) throws SQLException {
     ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
-    //用于保存结果集对象
+    //用于保存结果集对象 猪呢比容器
     final List<Object> multipleResults = new ArrayList<>();
 
     int resultSetCount = 0;
     //statment可能返回多个结果集对象，这里先取出第一个结果集
     ResultSetWrapper rsw = getFirstResultSet(stmt);
     //获取结果集对应resultMap，本质就是获取字段与java属性的映射规则
+    /*找到映射规则 */
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
     int resultMapCount = resultMaps.size();
     validateResultMapsCount(rsw, resultMapCount);//结果集和resultMap不能为空，为空抛出异常
     while (rsw != null && resultMapCount > resultSetCount) {
-     //获取当前结果集对应的resultMap
+     //获取当前结果集对应的resultMap 也就是字段对应的数据
       ResultMap resultMap = resultMaps.get(resultSetCount);
       //根据映射规则（resultMap）对结果集进行转化，转换成目标对象以后放入multipleResults中
       handleResultSet(rsw, resultMap, multipleResults, null);
@@ -295,7 +296,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
           + "'.  It's likely that neither a Result Type nor a Result Map was specified.");
     }
   }
-
+/*对处理结果进行缓存, 并把处理结果填充到list*/
   private void handleResultSet(ResultSetWrapper rsw, ResultMap resultMap, List<Object> multipleResults, ResultMapping parentMapping) throws SQLException {
     try {
       if (parentMapping != null) {//处理多结果集的嵌套映射
@@ -329,7 +330,8 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   //
 
   public void handleRowValues(ResultSetWrapper rsw, ResultMap resultMap, ResultHandler<?> resultHandler, RowBounds rowBounds, ResultMapping parentMapping) throws SQLException {
-    if (resultMap.hasNestedResultMaps()) {//处理有嵌套resultmap的情况
+      //处理有嵌套resultmap的情况
+    if (resultMap.hasNestedResultMaps()) {
       ensureNoRowBounds();
       checkResultHandler();
       handleRowValuesForNestedResultMap(rsw, resultMap, resultHandler, rowBounds, parentMapping);
@@ -412,7 +414,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   //4.读取resultSet中的一行记录并进行映射，转化并返回目标对象
   private Object getRowValue(ResultSetWrapper rsw, ResultMap resultMap) throws SQLException {
     final ResultLoaderMap lazyLoader = new ResultLoaderMap();
-    //4.1 根据resultMap的type属性，实例化目标对象
+    //4.1 根据resultMap的type属性，实例化目标对象 也就是我们的实体类的属性 TUser
     Object rowValue = createResultObject(rsw, resultMap, lazyLoader, null);
     if (rowValue != null && !hasTypeHandlerForResultObject(rsw, resultMap.getType())) {
       //4.2 对目标对象进行封装得到metaObjcect,为后续的赋值操作做好准备
