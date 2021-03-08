@@ -174,9 +174,11 @@ public class BeanWrapper extends BaseWrapper {
 
   private void setBeanProperty(PropertyTokenizer prop, Object object, Object value) {
     try {
+       //拿到set方法
       Invoker method = metaClass.getSetInvoker(prop.getName());
       Object[] params = {value};
       try {
+          //把值填充完成
         method.invoke(object, params);
       } catch (Throwable t) {
         throw ExceptionUtil.unwrapThrowable(t);
