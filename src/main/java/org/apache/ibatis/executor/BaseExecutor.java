@@ -157,7 +157,8 @@ public abstract class BaseExecutor implements Executor {
     try {
         //查询层次加一
       queryStack++;
-      list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;//查询以及缓存
+        //查询一级缓存
+      list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
     	 //针对调用存储过程的结果处理
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
@@ -334,7 +335,8 @@ public abstract class BaseExecutor implements Executor {
   //真正访问数据库获取结果的方法
   private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
     List<E> list;
-    localCache.putObject(key, EXECUTION_PLACEHOLDER);//在缓存中添加占位符
+      //在缓存中添加占位符
+    localCache.putObject(key, EXECUTION_PLACEHOLDER);
     try {
       //调用抽象方法doQuery，方法查询数据库并返回结果，可选的实现包括：simple、reuse、batch
       list = doQuery(ms, parameter, rowBounds, resultHandler, boundSql);

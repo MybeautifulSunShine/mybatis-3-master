@@ -86,11 +86,16 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
   @Override
   //使用模板模式，定义了获取Statement的步骤，其子类实现实例化Statement的具体的方式；
+  //根据connection对象生成statement
   public Statement prepare(Connection connection, Integer transactionTimeout) throws SQLException {
     ErrorContext.instance().sql(boundSql.getSql());
     Statement statement = null;
     try {
-      //通过不同的子类实例化不同的Statement，分为三类：simple(statment)、prepare(prepareStatement)、callable(CallableStatementHandler)
+        //通过不同的子类实例化不同的Statement，
+        //分为三类：simple(statment)、prepare(prepareStatement)、callable(CallableStatementHandler)
+        //最复杂的是Statement
+        //里面有三个方法
+        //prepareStatement默认的
       statement = instantiateStatement(connection);
       //设置超时时间
       setStatementTimeout(statement, transactionTimeout);

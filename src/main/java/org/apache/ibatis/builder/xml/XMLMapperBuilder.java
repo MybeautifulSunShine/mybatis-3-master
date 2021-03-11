@@ -107,7 +107,7 @@ public class XMLMapperBuilder extends BaseBuilder {
             cacheElement(context.evalNode("cache"));
             //解析parameterMap节点（已废弃）
             parameterMapElement(context.evalNodes("/mapper/parameterMap"));
-            //重点分析 ：解析resultMap节点（基于数据结果去理解）----------------2-------------------
+            //重点分析 ：解析resultMap节点（基于数据结构去理解）----------------2-------------------
             resultMapElements(context.evalNodes("/mapper/resultMap"));
             //解析sql节点
             sqlElement(context.evalNodes("/mapper/sql"));
@@ -440,7 +440,7 @@ public class XMLMapperBuilder extends BaseBuilder {
                     // look at MapperAnnotationBuilder#loadXmlResource
                     //将命名空间添加至configuration.loadedResource集合中
                     configuration.addLoadedResource("namespace:" + namespace);
-                    //将mapper接口添加到mapper注册中心
+                    //将mapper接口添加到mapper注册中心 重点分析
                     configuration.addMapper(boundType);
                 }
             }

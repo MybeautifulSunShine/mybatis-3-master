@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * @author Clinton Begin
  */
-public class SimpleExecutor extends BaseExecutor {
+public class    SimpleExecutor extends BaseExecutor {
 
   public SimpleExecutor(Configuration configuration, Transaction transaction) {
     super(configuration, transaction);

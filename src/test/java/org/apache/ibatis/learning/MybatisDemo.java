@@ -75,18 +75,21 @@ public class MybatisDemo {
     public void originalOperation() throws IOException {
         // 2.获取sqlSession
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        // 3.执行查询语句并返回结果
+        // 3.执行查询语句并返回结果 通过nameSpace 加id来确认接口
         TUser user = sqlSession.selectOne("com.enjoylearning.mybatis.mapper.TUserMapper.selectByPrimaryKey", 2);
         System.out.println(user.toString());
     }
-
+    //知识点：resultType
 
     @Test
-    //知识点：resultType
     public void testAutoMapping() throws IOException {
         // 2.获取sqlSession
         SqlSession sqlSession = sqlSessionFactory.openSession();
         // 3.获取对应mapper
+        //sqlSession到底把请求转发给谁?
+        //怎么找到相对应的id ?
+        //怎么传参数的 ?
+        //给你一个接口,返回一个实现类
         TUserTestMapper mapper = sqlSession.getMapper(TUserTestMapper.class);
         // 4.执行查询语句并返回多条数据
         List<TUser> users = mapper.selectAll();
@@ -125,23 +128,23 @@ public class MybatisDemo {
         String email = "qq.com";
         Byte sex = 1;
 
-        // 第一种方式使用map
+        /*// 第一种方式使用map
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("email", email);
         params.put("sex", sex);
         List<TUser> list1 = mapper.selectByEmailAndSex1(params);
-        System.out.println(list1.size());
+        System.out.println(list1.size());*/
 
         // 第二种方式直接使用参数
         List<TUser> list2 = mapper.selectByEmailAndSex2(email, sex);
         System.out.println(list2.size());
 
-        // 第三种方式用对象
-        EmailSexBean esb = new EmailSexBean();
-        esb.setEmail(email);
-        esb.setSex(sex);
-        List<TUser> list3 = mapper.selectByEmailAndSex3(esb);
-        System.out.println(list3.size());
+//        // 第三种方式用对象
+//        EmailSexBean esb = new EmailSexBean();
+//        esb.setEmail(email);
+//        esb.setSex(sex);
+//        List<TUser> list3 = mapper.selectByEmailAndSex3(esb);
+        System.out.println(list2.size());
     }
 
 
@@ -159,7 +162,7 @@ public class MybatisDemo {
         user1.setEmail("myemail1");
         mapper.insert1(user1);
         sqlSession.commit();
-        System.out.println(user1.getId());
+//        System.out.println(user1.getId());
     }
 
     @Test
@@ -176,7 +179,7 @@ public class MybatisDemo {
         user2.setEmail("myemai2l");
         mapper.insert2(user2);
         sqlSession.commit();
-        System.out.println(user2.getId());
+//        System.out.println(user2.getId());
     }
 
 
@@ -229,7 +232,7 @@ public class MybatisDemo {
         TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
 
         TUser user = new TUser();
-        user.setId(3);
+//        user.setId(3);
         user.setUserName("cindy");
         user.setRealName("王美丽");
         user.setEmail("xxoo@163.com");
@@ -308,8 +311,8 @@ public class MybatisDemo {
 
         int i = mapper.insertForeach4Batch(Arrays.asList(user1, user2));
         System.out.println("------批量更新获取主键的方式与单条insert完全相同--------");
-        System.out.println(user1.getId());
-        System.out.println(user2.getId());
+//        System.out.println(user1.getId());
+//        System.out.println(user2.getId());
 
     }
 
@@ -335,7 +338,7 @@ public class MybatisDemo {
         System.out.println(mapper.insertSelective(user));
 
         TUser user1 = new TUser();
-        user1.setId(3);
+//        user1.setId(3);
         user1.setUserName("cindy");
         user1.setRealName("王美丽");
         user1.setEmail("xxoo@163.com");
@@ -347,8 +350,8 @@ public class MybatisDemo {
 
         sqlSession.commit();
         System.out.println("----------------");
-        System.out.println(user.getId());
-        System.out.println(user1.getId());
+//        System.out.println(user.getId());
+//        System.out.println(user1.getId());
 
     }
 
@@ -378,7 +381,7 @@ public class MybatisDemo {
 		System.out.println(Arrays.toString(getablePropertyNames));
 		System.out.println(Arrays.toString(setablePropertyNames));
 //
-//		
+//
 //	    //使用ObjectWrapper读取对象信息，并对对象属性进行赋值操作
 		TUser userTemp = new TUser();
 		ObjectWrapper wrapperForUser = new BeanWrapper(metaObject, userTemp);
@@ -397,6 +400,7 @@ public class MybatisDemo {
 //        TUser user = objectFactory.create(TUser.class);
 //        ObjectWrapperFactory objectWrapperFactory = new DefaultObjectWrapperFactory();
 //        ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+//        //生成MateObject的
 //        MetaObject metaObject = MetaObject.forObject(user, objectFactory, objectWrapperFactory, reflectorFactory);
 //
 //

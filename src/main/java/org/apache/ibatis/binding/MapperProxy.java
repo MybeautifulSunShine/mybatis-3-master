@@ -38,7 +38,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   private static final long serialVersionUID = -6424540398559729838L;
   private final SqlSession sqlSession;//记录关联的sqlsession对象
   private final Class<T> mapperInterface;//mapper接口对应的class对象；
-//key是mapper接口中的某个方法的method对象，value是对应的MapperMethod，MapperMethod对象不记录任何状态信息，所以它可以在多个代理对象之间共享
+    // key是mapper接口中的某个方法的method对象，value是对应的MapperMethod，MapperMethod对象不记录任何状态信息，所以它可以在多个代理对象之间共享
   private final Map<Method, MapperMethod> methodCache;
 
   public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface, Map<Method, MapperMethod> methodCache) {
@@ -60,6 +60,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
       throw ExceptionUtil.unwrapThrowable(t);
     }
     //从缓存中获取mapperMethod对象，如果缓存中没有，则创建一个，并添加到缓存中
+     //mapperMethod 是干什么的?从哪儿来的 ?
     final MapperMethod mapperMethod = cachedMapperMethod(method);
     //调用execute方法执行sql
     return mapperMethod.execute(sqlSession, args);

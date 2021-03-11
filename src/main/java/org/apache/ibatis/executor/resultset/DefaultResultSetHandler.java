@@ -190,7 +190,8 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     /*找到映射规则 */
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
     int resultMapCount = resultMaps.size();
-    validateResultMapsCount(rsw, resultMapCount);//结果集和resultMap不能为空，为空抛出异常
+     //结果集和resultMap不能为空，为空抛出异常
+    validateResultMapsCount(rsw, resultMapCount);
     while (rsw != null && resultMapCount > resultSetCount) {
      //获取当前结果集对应的resultMap 也就是字段对应的数据
       ResultMap resultMap = resultMaps.get(resultSetCount);
@@ -375,7 +376,8 @@ public class DefaultResultSetHandler implements ResultSetHandler {
 
   //保存映射结果对象
   private void storeObject(ResultHandler<?> resultHandler, DefaultResultContext<Object> resultContext, Object rowValue, ResultMapping parentMapping, ResultSet rs) throws SQLException {
-    if (parentMapping != null) {//如果是嵌套结果或嵌套查询，将对象保存至父对象
+    if (parentMapping != null) {
+      //如果是嵌套结果或嵌套查询，将对象保存至父对象
       linkToParents(rs, parentMapping, rowValue);
     } else {//普通映射则把对象保存至resultHandler和resultContext
       callResultHandler(resultHandler, resultContext, rowValue);

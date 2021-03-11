@@ -95,7 +95,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       final Environment environment = configuration.getEnvironment();
       //从environment获取transactionFactory对象
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
-      //创建事务对象
+      //创建事务对象 拿到数据库连接池 重点分析  不管是Pull 还是UnPull都是实现了DataSource  而且可以通过配置文件来配置
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
       //根据配置创建executor
       final Executor executor = configuration.newExecutor(tx, execType);
